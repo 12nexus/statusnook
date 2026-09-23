@@ -14,6 +14,8 @@ Effortlessly deploy a status page and start monitoring endpoints in minutes
 <br>
 
 
+> **12nexus fork:** adds single sign-on behind oauth2-proxy (trusted headers). See [docs/sso.md](docs/sso.md).
+
 ## Deployment paths
 
 ### Standalone
