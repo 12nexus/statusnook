@@ -6345,6 +6345,11 @@ func history(w http.ResponseWriter, r *http.Request) {
 }
 
 func getLogin(w http.ResponseWriter, r *http.Request) {
+	if sso.enabled {
+		ssoLogin(w, r)
+		return
+	}
+
 	const markup = `
 		{{define "title"}}Log in{{end}}
 		{{define "body"}}
@@ -6398,6 +6403,16 @@ func getLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func postLogin(w http.ResponseWriter, r *http.Request) {
+	if sso.enabled {
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte(`
+			<div id="alert" class="alert" hx-swap-oob="true">
+				Password login is disabled. Sign in with SSO.
+			</div>
+		`))
+		return
+	}
+
 	username := r.PostFormValue("username")
 	if username == "" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -18832,6 +18847,11 @@ func logout(w http.ResponseWriter, r *http.Request) {
 			MaxAge: -1,
 		},
 	)
+
+	if sso.enabled && sso.logoutURL != "" {
+		w.Header().Add("HX-Redirect", sso.logoutURL)
+		return
+	}
 
 	w.Header().Add("HX-Location", "/")
 }
