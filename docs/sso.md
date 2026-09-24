@@ -53,4 +53,4 @@ with a password, such as scripts, needs SSO turned off while it runs.
 Code: `sso.go`, plus hooks at the top of `getLogin` and `postLogin` and at the
 end of `logout` in `main.go`.
 
-Used by https://status.apps.12nexusbpo.com (12nexus/nexgen-credits-monitor).
+Used by https://status.apps.12nexusbpo.com (12nexus/credits-monitor).
